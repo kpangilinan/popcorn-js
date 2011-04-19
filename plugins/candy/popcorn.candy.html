@@ -2,10 +2,7 @@
 <html>
 <head>
   <title>Candy Plug-in Demo</title>
-  <style type="text/css">
-    body {text-align:center;background-color:grey;}
-	hr {margin:20px;}
-  </style>
+  
   <script src="../../popcorn.js"></script>
   <script src="popcorn.candy.js"></script>
   <script>
@@ -13,37 +10,44 @@
       var p = Popcorn('#video')
       .candy({
         start: 0, // seconds
-        end: 4, // seconds
+        end: 5, // seconds
         target: 'candydiv',
         filter: 'modulate|5|5|h'
       })
 	  
 	  .candy({
-        start: 4, // seconds
-        end: 8, // seconds
-        target: 'candydiv',
-        filter: 'pointillize|9|9|5'
-      })
-	  
-	  .candy({
-        start: 8, // seconds
-        end: 12, // seconds
-        target: 'candydiv',
-        filter: 'divide|6'
-      })
-	  
-	  .candy({
-        start: 12, // seconds
+        start: 11, // seconds
         end: 16, // seconds
         target: 'candydiv',
-        filter: 'comic|bw'
+        filter: 'divide|10'
       })
 	  
 	  .candy({
         start: 16, // seconds
-        end: 22, // seconds
+        end: 18, // seconds
+        target: 'candydiv',
+        filter: 'divide|5'
+      })
+	  
+	  .candy({
+        start: 18, // seconds
+        end: 21, // seconds
         target: 'candydiv',
         filter: 'divide|2'
+      })
+	  
+	  .candy({
+        start: 21, // seconds
+        end: 28, // seconds
+        target: 'candydiv',
+        filter: 'negative'
+      })
+	  
+	  .candy({
+        start: 28, // seconds
+        end: 40, // seconds
+        target: 'candydiv',
+        filter: 'pointillize|12|14|0'
       })
     }, false);
 
@@ -51,23 +55,30 @@
 </head>
 <body>
   <h1 id="qunit-header">Popcorn: Candy Plug-in Demo</h1>
-  <blockquote>This demo demonstrates the <b>emboss</b>, <b>comic</b>, <b>sepia</b>, <b>blur</b>, and <b>negative</b> effect.</blockquote>
-  <hr/>
-  <div id='candy'>
+  <p> Modulate effect will will appear at 0 seconds and disappear at 5 seconds.</p>
+  <p> Divide effect will appear at 11 seconds and disappear at 16 seconds.</p>
+  <p> Divide effect will appear at 16 seconds and disappear at 18 seconds.</p>
+  <p> Divide effect will appear at 18 seconds and disappear at 21 seconds.</p>
+  <p> Comic effect will appear at 21 seconds and disappear at 28 seconds.</p>
+  <p> Pointillize effect will appear at 28 seconds and disappear at 40 seconds.</p>
+  <div>
     <video id='video' 
-      autoplay
-      width= '300px' height= '180px'> 
+      controls
+      width= '250px'
+      poster="../../test/poster.png"> 
+
+      <source id='mp4'
+        src="../../test/trailer.mp4"
+        type='video/mp4; codecs="avc1, mp4a"'> 
 
       <source id='ogv'
-        src="http://matrix.senecac.on.ca/~kpangilinan/candy/videos/man.ogv"
+        src="../../test/trailer.ogv"
         type='video/ogg; codecs="theora, vorbis"'> 
 
       <p>Your user agent does not support the HTML5 Video element.</p> 
+
     </video> 
   </div>
-  <p>BEFORE</p>
-  <div id="candydiv">
-  </div>
-  <p>AFTER</p>
+  <div id="candydiv"></div>
 </body>
 </html>
