@@ -30,8 +30,6 @@
 
   var w, h;
 
-  var stopEffect;
-
   //used in Multi-Channel effect
   var posX;
   var posY;
@@ -471,23 +469,19 @@
 
   }
 
-  function draw(v, c, bg, stop) {
-    if (v.paused || v.ended || stop) { return false; console.log("stopped");}
+  function draw(v, c, bg, options) {
+    if (v.paused || v.ended || options.stopEffect) { return false; console.log("stopped");}
     bg.drawImage(v, 0, 0, w, h);
 
-    effect = (String)(v.getAttribute('data-apply-effect')).split("|");
+    effect = (String)(options.filter).split("|");
 
     frame = bg.getImageData(0, 0, w, h);
     l = frame.data.length / 2;
 
     filterFunctions[effect[0]](v, c, bg, frame);
 
-    setTimeout(draw, 0, v, c, bg, stop);
+    setTimeout(draw, 0, v, c, bg, options);
   }; //end of draw function
-
-  function changeEffect(v, e) {
-    p.video.setAttribute("data-apply-effect", e);
-  };
 
   Popcorn.plugin("candy", (function () {
     return {
@@ -514,7 +508,8 @@
             elem: 'input',
             type: 'text',
             label: 'Text'
-          }
+          },
+          stopEffect: false
         }
       },
       _setup: function (options) {
@@ -536,9 +531,10 @@
       start: function (event, options) {
         p.video.style.display = "none";
         canvas.style.display = "inline";
-        changeEffect(p, options.filter);
-        stopEffect = false;
-        draw(p.video, videoOut, bgContext, stopEffect); //continue to draw() until video has paused or ended
+        options.stopEffect = false;
+        
+        //alert(options.stopEffect);
+        draw(p.video, videoOut, bgContext, options); //continue to draw() until video has paused or ended
       },
       /**
        * @member candy
@@ -549,8 +545,8 @@
       end: function (event, options) {
         p.video.style.display = "inline";
         canvas.style.display = "none";
+        options.stopEffect = true,
         multiON = false;
-        stopEffect = true;
       }
     };
   })());
