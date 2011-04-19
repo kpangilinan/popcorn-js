@@ -515,10 +515,11 @@
       _setup: function (options) {
         p = this;
 
-        w = canvas.width = bgCanvas.width = p.video.width;
-        h = canvas.height = bgCanvas.height = p.video.height;
-
+        w = canvas.width = bgCanvas.width = p.video.offsetWidth;
+        h = canvas.height = bgCanvas.height = p.video.offsetHeight;
+        
         if (document.getElementById(options.target)) {
+          document.getElementById(options.target).appendChild(p.video);
           document.getElementById(options.target).appendChild(canvas); // add the widget's div to the target div
         }
       },
