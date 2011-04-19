@@ -1,4 +1,4 @@
-<a href="popcorn.candy.html">Candy Plug-in Demo</a><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Candy Plug-in Demo</title>
@@ -12,20 +12,28 @@
     document.addEventListener('DOMContentLoaded', function () {
       var p = Popcorn('#video')
       .candy({
-        start: 2, // seconds
-        end: 10, // seconds
+        start: 0, // seconds
+        end: 4, // seconds
         target: 'candydiv',
         filter: 'emboss'
       })
+	  
+	  .candy({
+        start: 4, // seconds
+        end: 8, // seconds
+        target: 'candydiv',
+        filter: 'grayscale'
+      })
+	  
     }, false);
 
   </script>
 </head>
 <body>
   <h1 id="qunit-header">Popcorn: Candy Plug-in Demo</h1>
-  <blockquote>Testing target-bug and using popcorn video instance...</blockquote>
+  <blockquote>This demo demonstrates the <b>emboss</b>, <b>comic</b>, <b>sepia</b>, <b>blur</b>, and <b>negative</b> effect.</blockquote>
   <hr/>
-  <div>
+  <div id='candy'>
     <video id='video' 
       autoplay
       width= '300px' height= '180px'> 

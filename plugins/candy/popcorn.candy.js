@@ -462,9 +462,6 @@
 					document.getElementById( options.target ).appendChild(canvas); // add the widget's div to the target div
 				}
 
-				p.listen( "play", function ( event ) {
-					draw(p.video, videoOut, bgContext); //continue to draw() until video has paused or ended
-				});
 			},
 			/**
  			* @member candy
@@ -475,6 +472,7 @@
 			start: function (event, options) {
 				// make the <canvas> visible
 				changeEffect(p, options.filter);
+				draw(p.video, videoOut, bgContext); //continue to draw() until video has paused or ended
 			},
 			/**
  			* @member candy
