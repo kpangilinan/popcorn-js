@@ -472,7 +472,7 @@
   }
 
   function draw(v, c, bg, stop) {
-    if (v.paused || v.ended || stop) return false;
+    if (v.paused || v.ended || stop) { return false; console.log("stopped");}
     bg.drawImage(v, 0, 0, w, h);
 
     effect = (String)(v.getAttribute('data-apply-effect')).split("|");
