@@ -29,6 +29,8 @@
 	var l;
 
 	var w, h;
+	
+	var stopEffect=false;
 
 	//used in Multi-Channel effect
 	var posX;
@@ -63,7 +65,7 @@
 	videoB.volume = 0;
 	videoB.style.display = "none";
 
-	function draw(v, c, bg) {
+	function draw(v, c, bg, stop) {
 		if (v.paused || v.ended)
 			return false;
 		bg.drawImage(v, 0, 0, w, h);
@@ -428,7 +430,7 @@
 			c.drawImage(v, 0, 0, w, h);
 		}
 
-		setTimeout(draw, 0, v, c, bg);
+		setTimeout(draw, 0, v, c, bg, stop);
 	}; //end of draw function
 
 	function changeEffect(v, e) {
@@ -453,7 +455,6 @@
 			},
 			_setup: function (options) {
 				p = this;
-				p.video.style.display = "none";
 
 				w = canvas.width = bgCanvas.width = p.video.width;
 				h = canvas.height = bgCanvas.height = p.video.height;
@@ -461,7 +462,6 @@
 				if ( document.getElementById( options.target ) ) {
 					document.getElementById( options.target ).appendChild(canvas); // add the widget's div to the target div
 				}
-
 			},
 			/**
  			* @member candy
@@ -470,9 +470,10 @@
  			* options variable
  			*/
 			start: function (event, options) {
-				// make the <canvas> visible
+				p.video.style.display = "none";
+				canvas.style.display = "inline";
 				changeEffect(p, options.filter);
-				draw(p.video, videoOut, bgContext); //continue to draw() until video has paused or ended
+				draw(p.video, videoOut, bgContext, stopEffect); //continue to draw() until video has paused or ended
 			},
 			/**
  			* @member candy
@@ -481,9 +482,11 @@
  			* options variable
  			*/
 			end: function (event, options) {
-				// make the <canvas> invisible
+				p.video.style.display = "inline";
+				canvas.style.display = "none";
 				changeEffect(); //back to normal video
 				multiON=false;
+				stopEffect=true;
 			}
 		};
 	})());
