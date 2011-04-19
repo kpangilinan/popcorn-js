@@ -66,7 +66,7 @@
 	videoB.style.display = "none";
 
 	function draw(v, c, bg, stop) {
-		if (v.paused || v.ended)
+		if (v.paused || v.ended || stop)
 			return false;
 		bg.drawImage(v, 0, 0, w, h);
 
