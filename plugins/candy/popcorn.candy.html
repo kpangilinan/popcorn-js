@@ -15,16 +15,36 @@
         start: 0, // seconds
         end: 4, // seconds
         target: 'candydiv',
-        filter: 'emboss'
+        filter: 'modulate|5|5|h'
       })
 	  
 	  .candy({
         start: 4, // seconds
         end: 8, // seconds
         target: 'candydiv',
-        filter: 'grayscale'
+        filter: 'pointillize|9|9|5'
       })
 	  
+	  .candy({
+        start: 8, // seconds
+        end: 12, // seconds
+        target: 'candydiv',
+        filter: 'divide|6'
+      })
+	  
+	  .candy({
+        start: 12, // seconds
+        end: 16, // seconds
+        target: 'candydiv',
+        filter: 'comic|bw'
+      })
+	  
+	  .candy({
+        start: 16, // seconds
+        end: 22, // seconds
+        target: 'candydiv',
+        filter: 'divide|2'
+      })
     }, false);
 
   </script>
