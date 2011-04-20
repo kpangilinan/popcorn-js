@@ -1,7 +1,7 @@
 // PLUGIN: CANDY
 (function (Popcorn) {
   /**
-   * Webpages popcorn plug-in
+   * Candy popcorn plug-in
    * DESCRIPTION
    *
    * @param {Object} options
@@ -13,7 +13,7 @@
    start: 5, // seconds
    end: 15, // seconds
    target : 'candydiv',
-   filter: 'FILTERNAME|[OPTIONS]' // select filter
+   filter: '[filter]|[options]' // select filter
    } )
    *
    */
@@ -31,9 +31,7 @@
   var w, h;
 
   //used in Multi-Channel effect
-  var posX;
-  var posY;
-  var multiON = false;
+  var posX, posY, multiON = false;
 
   //used in Modulate effect
   var trap = 0;
@@ -44,9 +42,7 @@
   var spacing;
   var jitter;
 
-  var noise;
-  var noise2;
-  var pixelNoise;
+  //used in Pointillize/Noise/OldTV effect
   var j1;
   var j2;
 
@@ -87,6 +83,8 @@
   //==================//
   // GRAYSCALE EFFECT //
   //==================//
+
+
   function applyGrayscale(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0] * .3;
@@ -102,6 +100,8 @@
   //===============//
   // EMBOSS EFFECT //
   //===============//
+
+
   function applyEmboss(v, c, bg, frame) {
     // Loop through the subpixels, convoluting each using an edge-detection matrix.
     for (var i = 0; i < frame.data.length; i++) {
@@ -115,6 +115,8 @@
   //===============//
   // ROTATE EFFECT //
   //===============//
+
+
   function applyRotate(v, c, bg, frame) {
     if (effect[1] == 'h') {
       c.scale(-1, 1);
@@ -133,6 +135,8 @@
   //==============//
   // COMIC EFFECT //
   //==============//
+
+
   function applyComic(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -167,6 +171,8 @@
   //==============//
   // SEPIA EFFECT //
   //==============//
+
+
   function applySepia(v, c, bg, frame) {
 
     for (var i = 0; i < l; i++) {
@@ -184,6 +190,8 @@
   //====================//
   // GREENSCREEN EFFECT //
   //====================//
+
+
   function applyGreenScreen(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -200,6 +208,8 @@
   //=================//
   //    BLUR EFFECT  //
   //=================//
+
+
   function applyBlur(v, c, bg, frame) {
     c.globalAlpha = 0.05;
     c.drawImage(v, 0, 0, w, h);
@@ -209,6 +219,8 @@
   //===================//
   //   DIVIDE EFFECT   //
   //===================//
+
+
   function applyDivide(v, c, bg, frame) {
     var div = parseFloat(effect[1]);
     var a = w / div;
@@ -223,6 +235,8 @@
   //======================//
   // MULTI-CHANNEL EFFECT //
   //======================//
+
+
   function applyMultiChannel(v, c, bg, frame) {
     if (multiON == false) {
       videoB.src = effect[1];
@@ -248,6 +262,8 @@
   //=================//
   // NEGATIVE EFFECT //
   //=================//
+
+
   function applyNegative(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -264,6 +280,8 @@
   //=============//
   // XRAY EFFECT //
   //=============//
+
+
   function applyXRay(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -287,6 +305,8 @@
   //=================//
   //    RGB EFFECT   //
   //=================//
+
+
   function applyRGB(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0] + parseFloat(effect[1]);
@@ -303,6 +323,8 @@
   //===============//
   // BRIGHT EFFECT //
   //===============//
+
+
   function applyBright(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -323,6 +345,8 @@
   //====================//
   // POINTILLIZE EFFECT //
   //====================//
+
+
   function applyPointillize(v, c, bg, frame) {
     size = parseFloat(effect[1]);
     spacing = parseFloat(effect[2]);
@@ -337,8 +361,8 @@
         var color = pixel.data;
         c.fillStyle = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
 
-        var j1 = -jitter + (Math.random() * (jitter));
-        var j2 = -jitter + (Math.random() * (jitter));
+        j1 = -jitter + (Math.random() * (jitter));
+        j2 = -jitter + (Math.random() * (jitter));
         if (effect[4] == 'e') {
           c.beginPath();
           c.arc(x + j1, y + j2, size / 2, 0, Math.PI * 2, true);
@@ -354,6 +378,8 @@
   //=================//
   // PIXELATE EFFECT //
   //=================//
+
+
   function applyPixelate(v, c, bg, frame) {
     var size = parseFloat(effect[1]);
 
@@ -370,6 +396,8 @@
   //=================//
   //   OLD-TV EFFECT  //
   //=================//
+
+
   function applyOldTV(v, c, bg, frame) {
     jitter = 30;
     for (var i = 0; i < l; i++) {
@@ -383,7 +411,6 @@
     c.putImageData(frame, 0, 0);
     for (var x = 0; x < w + jitter; x += jitter) {
       for (var y = 0; y < h + jitter; y += jitter) {
-        //pixelNoise = noise2 + Math.random() * noise;
         c.fillStyle = 'rgb(0,0,0)';
 
         j1 = (-jitter) + (Math.random() * (jitter));
@@ -396,12 +423,13 @@
   //=================//
   //   NOISE EFFECT  //
   //=================//
+
+
   function applyNoise(v, c, bg, frame) {
     jitter = 20;
     c.drawImage(v, 0, 0, w, h);
     for (var x = 0; x < w + jitter; x += jitter) {
       for (var y = 0; y < h + jitter; y += jitter) {
-        //pixelNoise = noise2 + Math.random() * noise;
         c.fillStyle = 'rgb(0,0,0)';
 
         j1 = (-jitter) + (Math.random() * (jitter));
@@ -414,6 +442,8 @@
   //=================//
   // MODULATE EFFECT //
   //=================//
+
+
   function applyModulate(v, c, bg, frame) {
     var wavelength = parseFloat(effect[1]);
     var amplitude = parseFloat(effect[2]);
@@ -470,7 +500,10 @@
   }
 
   function draw(v, c, bg, options) {
-    if (v.paused || v.ended || options.stopEffect) { return false; console.log("stopped");}
+    if (v.paused || v.ended || options.stopEffect) {
+      return false;
+      console.log("stopped");
+    }
     bg.drawImage(v, 0, 0, w, h);
 
     effect = (String)(options.filter).split("|");
@@ -482,7 +515,6 @@
 
     setTimeout(draw, 0, v, c, bg, options);
   }; //end of draw function
-
   Popcorn.plugin("candy", (function () {
     return {
       manifest: {
@@ -517,7 +549,7 @@
 
         w = canvas.width = bgCanvas.width = p.video.offsetWidth;
         h = canvas.height = bgCanvas.height = p.video.offsetHeight;
-        
+
         if (document.getElementById(options.target)) {
           document.getElementById(options.target).appendChild(p.video);
           document.getElementById(options.target).appendChild(canvas); // add the widget's div to the target div
@@ -533,7 +565,7 @@
         p.video.style.display = "none";
         canvas.style.display = "inline";
         options.stopEffect = false;
-        
+
         //alert(options.stopEffect);
         draw(p.video, videoOut, bgContext, options); //continue to draw() until video has paused or ended
       },
@@ -546,8 +578,7 @@
       end: function (event, options) {
         p.video.style.display = "inline";
         canvas.style.display = "none";
-        options.stopEffect = true,
-        multiON = false;
+        options.stopEffect = true, multiON = false;
       }
     };
   })());
