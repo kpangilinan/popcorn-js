@@ -80,11 +80,6 @@
     modulate: applyModulate
   };
 
-  //==================//
-  // GRAYSCALE EFFECT //
-  //==================//
-
-
   function applyGrayscale(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0] * .3;
@@ -97,11 +92,6 @@
     c.putImageData(frame, 0, 0);
   }
 
-  //===============//
-  // EMBOSS EFFECT //
-  //===============//
-
-
   function applyEmboss(v, c, bg, frame) {
     // Loop through the subpixels, convoluting each using an edge-detection matrix.
     for (var i = 0; i < frame.data.length; i++) {
@@ -111,11 +101,6 @@
     // Draw the pixels onto the visible canvas
     c.putImageData(frame, 0, 0);
   }
-
-  //===============//
-  // ROTATE EFFECT //
-  //===============//
-
 
   function applyRotate(v, c, bg, frame) {
     if (effect[1] == 'h') {
@@ -131,11 +116,6 @@
     //if no option is used, video does not rotate
     c.scale(1, 1);
   }
-
-  //==============//
-  // COMIC EFFECT //
-  //==============//
-
 
   function applyComic(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
@@ -168,11 +148,6 @@
     c.putImageData(frame, 0, 0);
   }
 
-  //==============//
-  // SEPIA EFFECT //
-  //==============//
-
-
   function applySepia(v, c, bg, frame) {
 
     for (var i = 0; i < l; i++) {
@@ -187,11 +162,6 @@
     c.putImageData(frame, 0, 0);
   }
 
-  //====================//
-  // GREENSCREEN EFFECT //
-  //====================//
-
-
   function applyGreenScreen(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -205,21 +175,11 @@
     canvas.style.backgroundImage = imgURL;
   }
 
-  //=================//
-  //    BLUR EFFECT  //
-  //=================//
-
-
   function applyBlur(v, c, bg, frame) {
     c.globalAlpha = 0.05;
     c.drawImage(v, 0, 0, w, h);
     c.globalAlpha = 1;
   }
-
-  //===================//
-  //   DIVIDE EFFECT   //
-  //===================//
-
 
   function applyDivide(v, c, bg, frame) {
     var div = parseFloat(effect[1]);
@@ -231,11 +191,6 @@
       }
     }
   }
-
-  //======================//
-  // MULTI-CHANNEL EFFECT //
-  //======================//
-
 
   function applyMultiChannel(v, c, bg, frame) {
     if (multiON == false) {
@@ -259,11 +214,6 @@
     c.drawImage(videoB, posX, posY, w / 2, h / 2);
   }
 
-  //=================//
-  // NEGATIVE EFFECT //
-  //=================//
-
-
   function applyNegative(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -276,11 +226,6 @@
     }
     c.putImageData(frame, 0, 0);
   }
-
-  //=============//
-  // XRAY EFFECT //
-  //=============//
-
 
   function applyXRay(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
@@ -302,11 +247,6 @@
     c.putImageData(frame, 0, 0);
   }
 
-  //=================//
-  //    RGB EFFECT   //
-  //=================//
-
-
   function applyRGB(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0] + parseFloat(effect[1]);
@@ -319,11 +259,6 @@
     }
     c.putImageData(frame, 0, 0);
   }
-
-  //===============//
-  // BRIGHT EFFECT //
-  //===============//
-
 
   function applyBright(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
@@ -341,11 +276,6 @@
     }
     c.putImageData(frame, 0, 0);
   }
-
-  //====================//
-  // POINTILLIZE EFFECT //
-  //====================//
-
 
   function applyPointillize(v, c, bg, frame) {
     size = parseFloat(effect[1]);
@@ -375,11 +305,6 @@
     }
   }
 
-  //=================//
-  // PIXELATE EFFECT //
-  //=================//
-
-
   function applyPixelate(v, c, bg, frame) {
     var size = parseFloat(effect[1]);
 
@@ -392,11 +317,6 @@
       }
     }
   }
-
-  //=================//
-  //   OLD-TV EFFECT  //
-  //=================//
-
 
   function applyOldTV(v, c, bg, frame) {
     jitter = 30;
@@ -420,11 +340,6 @@
     }
   }
 
-  //=================//
-  //   NOISE EFFECT  //
-  //=================//
-
-
   function applyNoise(v, c, bg, frame) {
     jitter = 20;
     c.drawImage(v, 0, 0, w, h);
@@ -438,11 +353,6 @@
       }
     }
   }
-
-  //=================//
-  // MODULATE EFFECT //
-  //=================//
-
 
   function applyModulate(v, c, bg, frame) {
     var wavelength = parseFloat(effect[1]);
@@ -549,6 +459,9 @@
 
         w = canvas.width = bgCanvas.width = p.video.offsetWidth;
         h = canvas.height = bgCanvas.height = p.video.offsetHeight;
+        
+        p.video.style.display = "inline";
+        canvas.style.display = "none";
 
         if (document.getElementById(options.target)) {
           document.getElementById(options.target).appendChild(p.video);
