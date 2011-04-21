@@ -12,42 +12,57 @@
         start: 0, // seconds
         end: 5, // seconds
         target: 'candydiv',
-        filter: 'modulate|5|5|h'
+        effect: 'modulate',
+		settings: {
+		  wavelength: 5, amplitude: 5, orientation: 'horizontal'
+		}
       })
 	  
 	  .candy({
         start: 11, // seconds
         end: 16, // seconds
         target: 'candydiv',
-        filter: 'divide|10'
+        effect: 'divide',
+		settings: {
+		  divisor: 10
+		}
       })
 	  
 	  .candy({
         start: 16, // seconds
         end: 18, // seconds
         target: 'candydiv',
-        filter: 'divide|5'
+        effect: 'divide',
+		settings: {
+		  divisor: 5
+		}
       })
 	  
 	  .candy({
         start: 18, // seconds
         end: 21, // seconds
         target: 'candydiv',
-        filter: 'divide|2'
+        effect: 'divide',
+		settings: {
+		  divisor: 2
+		}
       })
 	  
 	  .candy({
         start: 21, // seconds
         end: 28, // seconds
         target: 'candydiv',
-        filter: 'negative'
+        effect: 'negative'
       })
 	  
 	  .candy({
         start: 28, // seconds
         end: 40, // seconds
         target: 'candydiv',
-        filter: 'pointillize|12|14|0'
+        effect: 'pointillize',
+		settings: {
+		  size: 12, spacing: 14, jitter: 0, shape: 'circle'
+		}
       })
     }, false);
 
