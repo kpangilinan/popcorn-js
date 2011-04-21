@@ -59,28 +59,8 @@
   videoB.volume = 0;
   videoB.style.display = "none";
 
-  var filterFunctions = {
-    grayscale: applyGrayscale,
-    emboss: applyEmboss,
-    rotate: applyRotate,
-    comic: applyComic,
-    sepia: applySepia,
-    greenscreen: applyGreenScreen,
-    blur: applyBlur,
-    divide: applyDivide,
-    multichannel: applyMultiChannel,
-    negative: applyNegative,
-    xray: applyXRay,
-    rgb: applyRGB,
-    bright: applyBright,
-    pointillize: applyPointillize,
-    pixelate: applyPixelate,
-    oldtv: applyOldTV,
-    noise: applyNoise,
-    modulate: applyModulate
-  };
-
-  function applyGrayscale(v, c, bg, frame) {
+  var effectFunctions = {
+    grayscale: function(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0] * .3;
       g = frame.data[i * 4 + 1] * .59;
@@ -90,9 +70,8 @@
       frame.data[i * 4 + 0] = frame.data[i * 4 + 1] = frame.data[i * 4 + 2] = grayscale;
     }
     c.putImageData(frame, 0, 0);
-  }
-
-  function applyEmboss(v, c, bg, frame) {
+  },
+    emboss: function(v, c, bg, frame) {
     // Loop through the subpixels, convoluting each using an edge-detection matrix.
     for (var i = 0; i < frame.data.length; i++) {
       if (i % 4 == 3) continue;
@@ -100,9 +79,8 @@
     }
     // Draw the pixels onto the visible canvas
     c.putImageData(frame, 0, 0);
-  }
-
-  function applyRotate(v, c, bg, frame) {
+  },
+    rotate: function(v, c, bg, frame) {
     if (effect[1] == 'h') {
       c.scale(-1, 1);
       c.drawImage(v, -w, 0, w, h)
@@ -115,9 +93,8 @@
     }
     //if no option is used, video does not rotate
     c.scale(1, 1);
-  }
-
-  function applyComic(v, c, bg, frame) {
+  },
+    comic: function(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
       g = frame.data[i * 4 + 1];
@@ -146,9 +123,8 @@
       } //DEFAULT: NORMAL COMIC
     }
     c.putImageData(frame, 0, 0);
-  }
-
-  function applySepia(v, c, bg, frame) {
+  },
+    sepia: function(v, c, bg, frame) {
 
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
@@ -160,9 +136,8 @@
       frame.data[i * 4 + 2] = (r * .272) + (g * .354) + (b * .131);
     }
     c.putImageData(frame, 0, 0);
-  }
-
-  function applyGreenScreen(v, c, bg, frame) {
+  },
+    greenscreen: function(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
       g = frame.data[i * 4 + 1];
@@ -173,15 +148,13 @@
     c.putImageData(frame, 0, 0);
     var imgURL = 'url(' + effect[1] + ')';
     canvas.style.backgroundImage = imgURL;
-  }
-
-  function applyBlur(v, c, bg, frame) {
+  },
+    blur: function(v, c, bg, frame) {
     c.globalAlpha = 0.05;
     c.drawImage(v, 0, 0, w, h);
     c.globalAlpha = 1;
-  }
-
-  function applyDivide(v, c, bg, frame) {
+  },
+    divide: function(v, c, bg, frame) {
     var div = parseFloat(effect[1]);
     var a = w / div;
     var b = h / div;
@@ -190,9 +163,8 @@
         c.drawImage(v, x * a, y * b, a, b);
       }
     }
-  }
-
-  function applyMultiChannel(v, c, bg, frame) {
+  },
+    multichannel: function(v, c, bg, frame) {
     if (multiON == false) {
       videoB.src = effect[1];
       multiON = true;
@@ -212,9 +184,8 @@
     }
     c.drawImage(v, 0, 0, w, h);
     c.drawImage(videoB, posX, posY, w / 2, h / 2);
-  }
-
-  function applyNegative(v, c, bg, frame) {
+  },
+    negative: function(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
       g = frame.data[i * 4 + 1];
@@ -225,9 +196,8 @@
       frame.data[i * 4 + 2] = 255 - b;
     }
     c.putImageData(frame, 0, 0);
-  }
-
-  function applyXRay(v, c, bg, frame) {
+  },
+    xray: function(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
       g = frame.data[i * 4 + 1];
@@ -245,9 +215,8 @@
       frame.data[i * 4 + 0] = frame.data[i * 4 + 1] = frame.data[i * 4 + 2] = grayscale;
     }
     c.putImageData(frame, 0, 0);
-  }
-
-  function applyRGB(v, c, bg, frame) {
+  },
+    rgb: function(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0] + parseFloat(effect[1]);
       g = frame.data[i * 4 + 1] + parseFloat(effect[2]);
@@ -258,9 +227,8 @@
       frame.data[i * 4 + 2] = b;
     }
     c.putImageData(frame, 0, 0);
-  }
-
-  function applyBright(v, c, bg, frame) {
+  },
+    bright: function(v, c, bg, frame) {
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0];
       g = frame.data[i * 4 + 1];
@@ -275,9 +243,8 @@
       frame.data[i * 4 + 2] = b;
     }
     c.putImageData(frame, 0, 0);
-  }
-
-  function applyPointillize(v, c, bg, frame) {
+  },
+    pointillize: function(v, c, bg, frame) {
     size = parseFloat(effect[1]);
     spacing = parseFloat(effect[2]);
     jitter = parseFloat(effect[3]);
@@ -303,9 +270,8 @@
         }
       }
     }
-  }
-
-  function applyPixelate(v, c, bg, frame) {
+  },
+    pixelate: function(v, c, bg, frame) {
     var size = parseFloat(effect[1]);
 
     for (var x = 0; x < w; x += size) {
@@ -316,9 +282,8 @@
         c.fillRect(x, y, size, size);
       }
     }
-  }
-
-  function applyOldTV(v, c, bg, frame) {
+  },
+    oldtv: function(v, c, bg, frame) {
     jitter = 30;
     for (var i = 0; i < l; i++) {
       r = frame.data[i * 4 + 0] * .3;
@@ -338,9 +303,8 @@
         c.fillRect(x + j1, y + j2, 1, 1);
       }
     }
-  }
-
-  function applyNoise(v, c, bg, frame) {
+  },
+    noise: function(v, c, bg, frame) {
     jitter = 20;
     c.drawImage(v, 0, 0, w, h);
     for (var x = 0; x < w + jitter; x += jitter) {
@@ -352,9 +316,8 @@
         c.fillRect(x + j1, y + j2, 1, 1);
       }
     }
-  }
-
-  function applyModulate(v, c, bg, frame) {
+  },
+    modulate: function(v, c, bg, frame) {
     var wavelength = parseFloat(effect[1]);
     var amplitude = parseFloat(effect[2]);
     var orientation = effect[3];
@@ -408,6 +371,7 @@
     c.globalAlpha = 1;
 
   }
+  };
 
   function draw(v, c, bg, options) {
     if (v.paused || v.ended || options.stopEffect) {
@@ -421,7 +385,7 @@
     frame = bg.getImageData(0, 0, w, h);
     l = frame.data.length / 2;
 
-    filterFunctions[effect[0]](v, c, bg, frame);
+    effectFunctions[effect[0]](v, c, bg, frame);
 
     setTimeout(draw, 0, v, c, bg, options);
   }; //end of draw function
