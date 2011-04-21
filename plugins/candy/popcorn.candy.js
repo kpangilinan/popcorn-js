@@ -13,7 +13,7 @@
    start: 5, // seconds
    end: 15, // seconds
    target : 'candydiv',
-   filter: '[filter]|[options]' // select filter
+   effect: '[effect]|[options]' // select effect
    } )
    *
    */
@@ -380,7 +380,7 @@
     }
     bg.drawImage(v, 0, 0, w, h);
 
-    effect = (String)(options.filter).split("|");
+    effect = (String)(options.effect).split("|");
 
     frame = bg.getImageData(0, 0, w, h);
     l = frame.data.length / 2;
@@ -410,7 +410,7 @@
             label: 'Out'
           },
           target: 'candy-container',
-          filter: {
+          effect: {
             elem: 'input',
             type: 'text',
             label: 'Text'
